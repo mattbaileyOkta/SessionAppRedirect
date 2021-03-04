@@ -1,0 +1,73 @@
+<!doctype html>                                                                                                                    
+<html>                                                                                                                  
+<head>                                                                                                                  
+    <title>Okta-Auth-Js Test</title>                                                                                    
+                                                                                                                        
+    <meta charset="utf-8">                                                                                              
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">                               
+</head>                                                                                                                 
+<body>                                                                                                                  
+    <div id="shell">                                                                                                    
+        Hello World                                                                                                     
+    </div>                                                                                                              
+    <script type="text/javascript" src="https://ok1static.oktacdn.com/assets/js/sdk/okta-auth-js/1.17.0/okta-auth-js.min.js"></script>
+    <script type="text/javascript">                                                                                     
+        // Get session                                                                                                  
+        const authClient = new OktaAuth({                                                                               
+            url: "https://XXXXX.oktapreview.com"                                                  
+        });                                                                                                             
+                                                                                           
+                                                                                             
+            authClient.session.exists().then(exists => {
+              
+                console.log("exisits")
+                
+                authClient.session.get().then(session => {
+                  console.log(session.userId)        
+                  const url = "https://cq4l3quprd.execute-api.us-east-1.amazonaws.com/dev/api/v1/users/" + session.userId
+                  fetch(url, {
+                 method: 'get',
+              headers: {
+                 "Accept": "application/json",
+                 "Content-type": "application/json",
+                 "Authorization": "SSWS "+"XXXXXXXXX"
+               }
+              })
+              .then(response => response.json())
+              .then(data => {
+               console.log(data.profile.Application)
+               if (data.profile.Application == "Italian App")
+               {
+                window.location.replace("/ItalianApp.html");
+               }
+               else if (data.profile.Application == "French App")
+               {
+                window.location.replace("/FrechApp.html");
+               }
+               else if (data.profile.Application == "English App")
+               {
+                window.location.replace("/EnglishApp.html");
+               }
+               else
+               {
+                window.location.replace("/catch.html");
+               }
+              }
+               )
+             .catch(function (error) {
+              console.log('Request failed', error);
+             });
+
+                })
+
+                if (!exists) {                                                                                          
+                    alert("Session doesn't exist.");                                                                       
+                }                                                                                                          
+            }).catch(() => {                                                                                               
+                console.log("error checking session");                                                                     
+            });                                                                                                            
+                                                                                                              
+                                                                                                                           
+    </script>                                                                                                              
+</body>                                                                                                                    
+</html>
