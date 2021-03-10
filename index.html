@@ -24,7 +24,7 @@
                 
                 authClient.session.get().then(session => {
                   console.log(session.userId)        
-                  const url = "https://cq4l3quprd.execute-api.us-east-1.amazonaws.com/dev/api/v1/users/" + session.userId
+                  const url = "https://PROXY/dev/api/v1/users/" + session.userId
                   fetch(url, {
                  method: 'get',
               headers: {
